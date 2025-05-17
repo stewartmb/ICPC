@@ -1,4 +1,3 @@
-
 class Solution(object):
     def minPathSum(self, grid):
         """
@@ -6,19 +5,22 @@ class Solution(object):
         :rtype: int
         """
         n = len(grid)
+        m = len(grid[0])
         # Inicializar la matriz de DP n*n
-        dp = [[0] * n for _ in range(n)]
-        # Llenar la primera fila y columna
-        for i in range(n):
-            dp[0][i] = dp[0][i-1] + grid[0][i]
-            dp[i][0] = dp[i-1][0] + grid[i][0]
-        # Completar M
+        dp = [[0] * m for _ in range(n)]
+        # Llenar la primera celda
+        dp[0][0] = grid[0][0]
+        # Llenar la primera fila
+        for j in range(1, m):
+            dp[0][j] = dp[0][j-1] + grid[0][j]
+        # Llenar la primera columna
         for i in range(1, n):
-            for j in range(1, n):
+            dp[i][0] = dp[i-1][0] + grid[i][0]
+        # Llenar el resto de la matriz
+        for i in range(1, n):
+            for j in range(1, m):
                 dp[i][j] = min(dp[i-1][j], dp[i][j-1]) + grid[i][j]
-        # Resultado
-        return dp[n-1][n-1]
-    
+        return dp[n-1][m-1]
 # Test
 grid = [[1,3,1],[1,5,1],[4,2,1]]
 solution = Solution()
